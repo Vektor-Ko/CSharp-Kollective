@@ -2,7 +2,7 @@
 
 namespace JSON_Value_Retriever
 {
-    internal class JSONReader
+    public class JSONReader
     {
         private string _JSONString;
         private JObject _JSONObject;
@@ -42,6 +42,29 @@ namespace JSON_Value_Retriever
                 throw;
             }
             return reader;
+        }
+
+        /// <summary>
+        /// Creates and initializes a JSONReader object from a path leading to JSON file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        static public JSONReader ParseJsonPath(string path)
+        {
+            try
+            {
+                using (StreamReader r = new StreamReader(path))
+                {
+                    string json = r.ReadToEnd();
+                    JSONReader reader = JSONReader.ParseJson(json);
+
+                    return reader;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public string GetValue(string key)
